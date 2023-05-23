@@ -1,4 +1,4 @@
-# Grobner basis calculation using FGB
+# Arb
 This package provides a high-level ocaml limited interface to the [Arb library](https://arblib.org/index.html). For more information on functionality see the arb documentation.
 
 ## Dependencies
