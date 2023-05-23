@@ -1,0 +1,58 @@
+;The main arb library. Requires flint and arb to be installed c libraries
+(library
+ (name arb)
+ (public_name arb)
+ (libraries ctypes unix)
+ (synopsis "The Arb package entry point")
+ (modules :standard \ gen bindings arb_zarith zarith_bind)
+ (foreign_stubs
+  (language c)
+  (names arb_stub)
+  (flags :standard -lflint -lflint-arb -lgmp -lstdc++ -w)
+ )
+  (c_library_flags :standard -lflint -lflint-arb -lgmp)
+)
+
+;Optional library which gives more direct translations from zarith types
+;to arb types.
+(library
+ (name arb_zarith)
+ (public_name arb.zarith)
+ (libraries ctypes ppx_cstubs arb zarith)
+ (foreign_stubs
+   (language c)
+   (names zarith_bind_stubs)
+   (flags :standard -lgmp)
+ )
+ (modules arb_zarith zarith_bind)
+ (synopsis "Arb with zarith bindings")
+ (optional)
+)
+
+;This executable generates the stub code to the library
+(executable
+  (name gen)
+  (modules gen bindings)
+  (libraries ctypes.stubs ctypes)
+)
+
+;run gen.exe to generate the stub code
+(rule
+  (targets arb_stub.c arb_stub.ml)
+  (deps gen.exe)
+  (action (run ./gen.exe))
+)
+
+;We must rename bindings.ml because both gen and the library
+;can't use the same named module
+(rule
+  (targets bind.ml)
+  (deps bindings.ml)
+  (action (copy bindings.ml bind.ml))
+)
+
+;Generate the stub code for arb_zarith
+(rule
+  (targets zarith_bind.ml zarith_bind_stubs.c)
+  (deps zarith_bind.c.ml)
+  (action (run %{bin:ppx_cstubs} -I %{lib:zarith:.} zarith_bind.c.ml -o %{targets})))
