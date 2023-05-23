@@ -5,7 +5,7 @@
 (generate_opam_files true)
 
 (source
- (github username/reponame))
+ (github cyphertjohn/arb))
 
 (authors "John Cyphert")
 
@@ -26,4 +26,3 @@
    (zarith :build)
  ))
 
-; See the complete stanza docs at https://dune.readthedocs.io/en/stable/dune-files.html#dune-project

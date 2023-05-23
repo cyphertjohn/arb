@@ -204,7 +204,4 @@ module Fmpz_mat = struct
     let eta = fmpq_init_set_si eta_n eta_d in
     C.fmpz_mat_lll_storjohann mat delta eta
 
-  let one mat = 
-    C.fmpz_mat_one mat
-
 end

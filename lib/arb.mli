@@ -39,7 +39,7 @@ module Fmpz : sig
 
 end
 
-(** Arb comlex ball's. *)
+(** Arb complex ball's. *)
 module Acb : sig
   type t
 
@@ -59,11 +59,11 @@ module Acb : sig
   val log : t -> int -> t
 
   (** Each component of an acb has a midpoint and a width value. This returns the midpoint
-      value of the real component as integers (m, e). The midpoint is m \* 2^e.*)
+      value of the real component as integers (m, e). The midpoint is m * 2^e.*)
   val get_real_mid_fmpz : t -> Fmpz.t * Fmpz.t
 
   (** Each component of an acb has a midpoint and a width value. This returns the midpoint
-    value of the imag component as integers (m, e). The midpoint is m \* 2^e.*)
+    value of the imag component as integers (m, e). The midpoint is m * 2^e.*)
   val get_imag_mid_fmpz : t -> Fmpz.t * Fmpz.t
 
   (** Gives the value pi to a given precision.*)
@@ -157,6 +157,4 @@ module Fmpz_mat : sig
       Most often eta = 0.51. According to the flint documentation this algorithm has
       better complexity in the lattice dimension compared to the original algorithm.*)
   val lll_storjohann : t -> int * int -> int * int -> unit
-
-  val one : t -> unit
 end
