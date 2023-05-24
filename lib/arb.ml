@@ -1,5 +1,6 @@
 module C = Bind.Bindings(Arb_stub)
 
+
 module Fmpz = struct
   type t = Signed.long Ctypes.ptr
 
@@ -36,8 +37,12 @@ module Fmpz = struct
 
   let set dest source = C.fmpz_set dest source
 
-end
+  let mul_2exp a e = 
+    let r = init () in
+    C.fmpz_mul_2exp r a (Unsigned.ULong.of_int e);
+    r
 
+end
 
 
 module Acb = struct
@@ -50,6 +55,13 @@ module Acb = struct
     c
 
   let clear a = C.acb_clear a
+
+  let set_fmpz = C.acb_set_fmpz
+
+  let init_set_fmpz real = 
+    let c = init () in
+    set_fmpz c real;
+    c
 
   let set_fmpz_fmpz c real imag = 
     C.acb_set_fmpz_fmpz c real imag
@@ -104,7 +116,7 @@ module Acb = struct
 
   let div a b prec = 
     let r = init () in
-    C.acb_mul r a b (Signed.Long.of_int prec);
+    C.acb_div r a b (Signed.Long.of_int prec);
     r
 
   let mul_si a i prec = 
@@ -117,9 +129,30 @@ module Acb = struct
     C.acb_div_si r a (Signed.Long.of_int i) (Signed.Long.of_int prec);
     r
 
-  (*  let _acb_vec_init = foreign "_acb_vec_init" (long @-> returning acb_ptr)
-    let _acb_vec_clear = foreign "_acb_vec_clear" (acb_ptr @-> long @-> returning void)*)
+  let bits a = Signed.Long.to_int (C.acb_bits a)
+
+  let trim a = 
+    let r = init () in
+    C.acb_trim r a;
+    r
+
+  let rel_error_bits a = Signed.Long.to_int (C.acb_rel_error_bits a)
+
+  let rel_accuracy_bits a = Signed.Long.to_int (C.acb_rel_accuracy_bits a)
+
+  let rel_one_accuracy_bits a = Signed.Long.to_int (C.acb_rel_one_accuracy_bits a)
+
+  let neg a = 
+    let r = init () in
+    C.acb_neg r a;
+    r
+
+  let pow_si a e prec = 
+    let r = init () in
+    C.acb_pow_si r a (Signed.Long.of_int e) (Signed.Long.of_int prec);
+    r
 end
+
 
 module Fmpz_poly = struct
   type t = C.fmpz_poly_t

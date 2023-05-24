@@ -32,6 +32,7 @@ module Bindings (F : Cstubs.FOREIGN) = struct
   let fmpz_get_str = foreign "fmpz_get_str" (ptr char @-> int @-> fmpz_t @-> returning string)
   let fmpz_set_str = foreign "fmpz_set_str" (fmpz_t @-> string @-> int @-> returning int)
   let fmpz_set = foreign "fmpz_set" (fmpz_t @-> fmpz_t @-> returning void)
+  let fmpz_mul_2exp = foreign "fmpz_mul_2exp" (fmpz_t @-> fmpz_t @-> ulong @-> returning void)
 
   (*Types and functions from fmpq.h*)
   type fmpq
@@ -129,6 +130,16 @@ module Bindings (F : Cstubs.FOREIGN) = struct
   let acb_div_si = foreign "acb_div_si" (acb_ptr @-> acb_srcptr @-> long @-> long @-> returning void)
   let _acb_vec_init = foreign "_acb_vec_init" (long @-> returning acb_ptr)
   let _acb_vec_clear = foreign "_acb_vec_clear" (acb_ptr @-> long @-> returning void)
+  let acb_bits = foreign "acb_bits" (acb_ptr @-> returning long)
+  let acb_trim = foreign "acb_trim" (acb_ptr @-> acb_srcptr @-> returning void)
+  let acb_rel_error_bits = foreign "acb_rel_error_bits" (acb_srcptr @-> returning long)
+  let acb_rel_accuracy_bits = foreign "acb_rel_accuracy_bits" (acb_srcptr @-> returning long)
+  let acb_rel_one_accuracy_bits = foreign "acb_rel_one_accuracy_bits" (acb_srcptr @-> returning long)
+  let acb_neg = foreign "acb_neg" (acb_ptr @-> acb_srcptr @-> returning void)
+  let acb_pow_si = foreign "acb_pow_si" (acb_ptr @-> acb_srcptr @-> long @-> long @-> returning void)
+  let acb_set_fmpz = foreign "acb_set_fmpz" (acb_ptr @-> fmpz_t @-> returning void)
+  let acb_print = foreign "acb_print" (acb_ptr @-> returning void)
+
 
   (*Types and functions from flint/fmpz_poly.h*)
   type fmpz_poly_struct

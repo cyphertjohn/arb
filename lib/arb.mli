@@ -11,6 +11,7 @@ end
 
 (** Flint's version of mpz's. *)
 module Fmpz : sig
+
   type t
 
   (** Get a fresh fmpz ready for use*)
@@ -28,16 +29,19 @@ module Fmpz : sig
   (** Initialize and set an fmpz to the given string with respect to the given radix.*)
   val init_set_str : string -> int -> t
 
+  (** [set a b] sets [a] to the value [b]*)
+  val set : t -> t -> unit
+
   (** Get an fmpz value from an mpz value*)
   val fmpz_from_mpz : C.mpz_t -> t
 
   (** Get an mpz value from an fmpz value*)
   val mpz_from_fmpz : t -> C.mpz_t
 
-  (** [set a b] sets [a] to the value [b]*)
-  val set : t -> t -> unit
+  val mul_2exp : t -> int -> t
 
 end
+
 
 (** Arb complex ball's. *)
 module Acb : sig
@@ -48,6 +52,10 @@ module Acb : sig
 
   (** Clear and free the memory of an acb. Probably not needed due to ocamls GC.*)
   val clear : t -> unit
+
+  val set_fmpz : t -> Fmpz.t -> unit
+
+  val init_set_fmpz : Fmpz.t -> t
 
   (** Set an acb to the given real and imaginary integers.*)
   val set_fmpz_fmpz : t -> Fmpz.t -> Fmpz.t -> unit
@@ -86,7 +94,23 @@ module Acb : sig
 
   (** [div_si a i prec]. Divides [a] by the integer [i] to the given precision.*)
   val div_si : t -> int -> int -> t
+
+  val bits : t -> int
+
+  val trim : t -> t
+
+  val rel_error_bits : t -> int
+
+  val rel_accuracy_bits : t -> int
+  
+  val rel_one_accuracy_bits : t -> int
+
+  val neg : t -> t
+
+  val pow_si : t -> int -> int -> t
+
 end
+
 
 (** Flint's integer polynomials.*)
 module Fmpz_poly : sig
@@ -120,7 +144,8 @@ module Fmpz_poly : sig
       This implementation should be adequate for general use, but it is not currently competitive with state-of-the-art isolation 
       methods for finding real roots alone.*)
   val get_complex_roots : t -> int -> Acb.t list
-end 
+end
+
 
 (** Flint's integer matrices.*)
 module Fmpz_mat : sig
@@ -156,5 +181,5 @@ module Fmpz_mat : sig
       Most often delta = 0.75. Eta needs to be in the range (0.5, sqrt(delta)).
       Most often eta = 0.51. According to the flint documentation this algorithm has
       better complexity in the lattice dimension compared to the original algorithm.*)
-  val lll_storjohann : t -> int * int -> int * int -> unit
+  val lll_storjohann : t -> int * int -> int * int -> unit  
 end
