@@ -74,6 +74,13 @@ module Acb : sig
     value of the imag component as integers (m, e). The midpoint is m * 2^e.*)
   val get_imag_mid_fmpz : t -> Fmpz.t * Fmpz.t
 
+  (** If x = a + bi, then [(c, d) = get_real_imag_mag_upper x] such that [c] and [d] are integers
+      and |a| <= [c] and |b| <= [d]. Note the following warning from the arb docs: These functions 
+      are unsafe: the user must check in advance that x is of reasonable magnitude. If x is infinite 
+      or has a bignum exponent, an abort will be raised. If the exponent otherwise is too large or 
+      too small, the available memory could be exhausted resulting in undefined behavior.*)
+  val get_real_imag_mag_upper : t -> Fmpz.t * Fmpz.t
+
   (** Gives the value pi to a given precision.*)
   val pi : int -> t
 

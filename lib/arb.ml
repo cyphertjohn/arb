@@ -70,6 +70,7 @@ module Acb = struct
     let c = init () in
     set_fmpz_fmpz c real imag;
     c
+    
 
   let log a prec = 
     let r = init () in
@@ -93,6 +94,23 @@ module Acb = struct
     let e = Fmpz.init () in
     C.arf_get_fmpz_2exp m e (C.arb_mid_ptr imag);
     (m, e)
+
+  let get_real_imag_mag_upper a = 
+    let real = Ctypes.addr (Ctypes.make C.arb_struct) in
+    C.acb_get_real real a;
+    let imag = Ctypes.addr (Ctypes.make C.arb_struct) in
+    C.acb_get_imag imag a;
+    let real_mag = Ctypes.addr (Ctypes.make C.mag_struct) in
+    C.arb_get_mag real_mag real;
+    let imag_mag = Ctypes.addr (Ctypes.make C.mag_struct) in
+    C.arb_get_mag imag_mag imag;
+    let real_upper = Fmpz.init () in
+    C.mag_get_fmpz real_upper real_mag;
+    let imag_upper = Fmpz.init () in
+    C.mag_get_fmpz imag_upper imag_mag;
+    (real_upper, imag_upper)
+
+
 
   let pi prec = 
     let p = init () in

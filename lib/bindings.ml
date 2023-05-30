@@ -84,9 +84,14 @@ module Bindings (F : Cstubs.FOREIGN) = struct
   (*Types and functions from mag.h*)
   type mag_struct
   let mag_struct : mag_struct structure typ = structure "mag_struct"
+  type mag_t = mag_struct structure ptr
+  let mag_t : mag_t typ = ptr mag_struct
   let exp_mags = field mag_struct "exp" fmpz
   let man_mags = field mag_struct "man" mp_limb_t
   let () = seal mag_struct
+  let mag_init = foreign "mag_init" (mag_t @-> returning void)
+  let mag_clear = foreign "mag_clear" (mag_t @-> returning void)
+  let mag_get_fmpz = foreign "mag_get_fmpz" (fmpz_t @-> mag_t @-> returning void)
 
   (*Types and functions from arb.h*)
   type arb_struct
@@ -103,6 +108,7 @@ module Bindings (F : Cstubs.FOREIGN) = struct
   let arb_get_interval_fmpz_2exp = foreign "arb_get_interval_fmpz_2exp" (fmpz_t @-> fmpz_t @-> fmpz_t @-> arb_ptr @-> returning void)
   (*let arb_get_mid_arb = foreign "arb_get_mid_arb" (arb_ptr @-> arb_srcptr @-> returning void)*)
   let arb_mid_ptr = foreign "arb_mid_ptr" (arb_ptr @-> returning arf_ptr)
+  let arb_get_mag = foreign "arb_get_mag" (mag_t @-> arb_srcptr @-> returning void)
 
 
   (*Types and functions from acb.h*)
@@ -120,6 +126,7 @@ module Bindings (F : Cstubs.FOREIGN) = struct
   let acb_get_real = foreign "acb_get_real" (arb_ptr @-> acb_srcptr @-> returning void)
   let acb_get_imag = foreign "acb_get_imag" (arb_ptr @-> acb_srcptr @-> returning void)
   let acb_set_fmpz_fmpz = foreign "acb_set_fmpz_fmpz" (acb_ptr @-> fmpz_t @-> fmpz_t @-> returning void)
+  let acb_set_fmpq = foreign "acb_set_fmpq" (acb_ptr @-> fmpq_t @-> long @-> returning void)
   let acb_log = foreign "acb_log" (acb_ptr @-> acb_srcptr @-> long @-> returning void)
   let acb_const_pi = foreign "acb_const_pi" (acb_ptr @-> long @-> returning void)
   let acb_add = foreign "acb_add" (acb_ptr @-> acb_srcptr @-> acb_srcptr @-> long @-> returning void)
