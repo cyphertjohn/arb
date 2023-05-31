@@ -239,7 +239,7 @@ module Fmpz_mat = struct
     Signed.Long.to_int (C.fmpz_mat_ncols mat)
 
   let fmpq_init_set_si n d = 
-    let fmpq = Ctypes.make ~finalise:(fun _ -> print_endline "Freeing fmpq struct"; flush stdout) C.fmpq in
+    let fmpq = Ctypes.make C.fmpq in
     let res = Ctypes.addr fmpq in
     C.fmpq_init res;
     C.fmpq_set_si res (Signed.Long.of_int n) (Unsigned.ULong.of_int d);
