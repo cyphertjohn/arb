@@ -75,6 +75,10 @@ module Fmpz : sig
   
   val mul_si : t -> int -> t
 
+  val divexact : t -> t -> t
+
+  val divexact_si : t -> int -> t
+
   val pow_ui : t -> int -> t
 
   val gcd : t -> t -> t

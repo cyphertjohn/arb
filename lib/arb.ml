@@ -112,6 +112,16 @@ module Fmpz = struct
     C.fmpz_mul_si r a (Signed.Long.of_int i);
     r
 
+  let divexact a b = 
+    let r = init () in 
+    C.fmpz_divexact r a b;
+    r
+
+  let divexact_si a i = 
+    let r = init () in 
+    C.fmpz_divexact_si r a (Signed.Long.of_int i);
+    r
+
   let pow_ui a i = 
     if i < 0 then raise (Invalid_argument "Negative Exponent");
     let r = init () in
