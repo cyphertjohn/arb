@@ -475,8 +475,8 @@ module Fmpz_mat = struct
     for i = 0 to m1 * m2 - 1 do
       for j = 0 to n1 * n2 - 1 do
         let entry = C.fmpz_mat_entry res (Signed.Long.of_int i) (Signed.Long.of_int j) in
-        let aentry = C.fmpz_mat_entry res (Signed.Long.of_int (i / m2)) (Signed.Long.of_int (j / n2)) in
-        let bentry = C.fmpz_mat_entry res (Signed.Long.of_int (i mod m2)) (Signed.Long.of_int (j mod n2)) in
+        let aentry = C.fmpz_mat_entry a (Signed.Long.of_int (i / m2)) (Signed.Long.of_int (j / n2)) in
+        let bentry = C.fmpz_mat_entry b (Signed.Long.of_int (i mod m2)) (Signed.Long.of_int (j mod n2)) in
         C.fmpz_init entry;
         C.fmpz_mul entry aentry bentry
       done;
