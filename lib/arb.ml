@@ -373,7 +373,7 @@ module Fmpz_mat = struct
 
   let window mat r1 c1 r2 c2 = 
     let m, n = nb_rows mat, nb_cols mat in
-    if r1 < 0 || r2 < 0 || c1 < 0 || c2 < 0 || r1+r2 >= m || c1+c2 >= n then raise Index_Out_of_Bounds;
+    if r1 < 0 || r2 < 0 || c1 < 0 || c2 < 0 || r1+r2 > m || c1+c2 > n then raise Index_Out_of_Bounds;
     let mat_struct = Ctypes.make C.fmpz_mat_struct in
     let res = Ctypes.addr mat_struct in
     C.fmpz_mat_window_init res mat (Signed.Long.of_int r1) (Signed.Long.of_int c1) (Signed.Long.of_int r2) (Signed.Long.of_int c2);
