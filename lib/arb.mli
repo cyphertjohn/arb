@@ -40,6 +40,47 @@ module Fmpz : sig
 
   val mul_2exp : t -> int -> t
 
+  (** Returns a copy. *)
+  val init_set : t -> t
+
+  (** Return an fmpz of an int *)
+  val of_int : int -> t
+
+  (** Returns an integer of an fmpz. If the input can't fit into an integer the function has undefined behavior.*)
+  val to_int : t -> int
+
+  val zero : unit -> t
+
+  val one : unit -> t
+  
+  val cmp : t -> t -> int
+
+  val cmp_si : t -> int -> int
+
+  val equal : t -> t -> bool
+
+  val equal_si : t -> int -> bool
+
+  val neg : t -> t
+
+  val add : t -> t -> t
+
+  val add_si : t -> int -> t
+
+  val sub : t -> t -> t
+
+  val sub_si : t -> int -> t
+
+  val mul : t -> t -> t
+  
+  val mul_si : t -> int -> t
+
+  val pow_ui : t -> int -> t
+
+  val gcd : t -> t -> t
+
+  val lcm : t -> t -> t
+
 end
 
 
@@ -156,6 +197,10 @@ end
 
 (** Flint's integer matrices.*)
 module Fmpz_mat : sig
+
+  exception Incompatible_Dimensions
+  exception Index_Out_of_Bounds
+
   type t
 
   (** Initialize an integer matrix of the given size.*)
@@ -175,6 +220,81 @@ module Fmpz_mat : sig
   (** The number of cols of the matrix. *)
   val nb_cols : t -> int
 
+  (** Create a truncated identity matrix of the given size.
+      @raise Index_Out_of_Bounds if either of the inputs are negative.*)
+  val ident : int -> int -> t
+
+  (** Create a zero matrix of the given size
+      @raise Index_Out_of_Bounds if either of the inputs are negative. *)
+  val zero : int -> int -> t
+
+  (** [window m r1 c1 r2 c2] returns a copy of the [r2-r1] by [c2 - c1] submatrix whose [(0, 0)]
+      entry is the [(r1, c1)] entry of the input.
+      @raise Index_Out_of_Bounds if the indices are incompatible. *)
+  val window : t -> int -> int -> int -> int -> t
+
+  val equal : t -> t -> bool
+
+  val is_zero : t -> bool
+  
+  val transpose : t -> t
+
+  (** Concats two matrices vertically.
+      @raise Incompatible_Dimensions if the inputs are incompatible.*)
+  val concat_vertical : t -> t -> t
+  
+  (** Concats two matrices horizontall.
+      @raise Incompatible_Dimensions if the inputs are incompatible.*)
+  val concat_horizontal : t -> t -> t
+
+  (** @raise Incompatible_Dimensions if the inputs are not the same size.*)
+  val add : t -> t -> t
+
+  (** @raise Incompatible_Dimensions if the inputs are not the same size.*)
+  val sub : t -> t -> t
+  
+  val neg : t -> t
+  
+  val scalar_mult_si : t -> int -> t
+
+  val scalar_mult : t -> Fmpz.t -> t
+
+  (** Set A = B / c, where B is an fmpz_mat_t and c is a scalar respectively 
+      which is assumed to divide all elements of B exactly.*)
+  val divexact_si : t -> int -> t
+
+  val divexact : t -> Fmpz.t -> t
+
+  (** Multiplies the entries of the matrix by 2^e*)
+  val scalar_mult_2exp : t -> int -> t
+
+  (** Divides the matrix by 2^e rounded down towards 0.*)
+  val scalar_tdiv_q_2exp : t -> int -> t
+
+  (** @raise Incompatible_Dimensions if the inputs are not compatible.*)
+  val mul : t -> t -> t
+
+  (** Computes the Kronecker product of the given matrices.*)
+  val kronecker : t -> t -> t
+
+  (** @raise Invalid_argument "Negative Exponent"*)
+  val pow : t -> int -> t
+
+  (** The gcd of the elements of the matrix*)
+  val content : t -> Fmpz.t
+
+  (** The trace of the given matrix.*)
+  val trace : t -> Fmpz.t
+
+  (** The hnf of the given matrix.*)
+  val hnf : t -> t
+
+  (** [hnf_transform a = (h, u)] where [h] is the hnf of [a]
+      and [u] is such that [ua = h]*)
+  val hnf_transform : t -> t * t
+
+  val is_in_hnf : t -> bool
+
   (** [lll_original mat (delta_n, delta_d) (eta_n, eta_d)] performs in place
       lll reduction to the given matrix. Delta and eta are parameters to the
       lll algorithm. The algorithm gives gaurentees for delta in the range (0.25, 1\].
@@ -189,4 +309,5 @@ module Fmpz_mat : sig
       Most often eta = 0.51. According to the flint documentation this algorithm has
       better complexity in the lattice dimension compared to the original algorithm.*)
   val lll_storjohann : t -> int * int -> int * int -> unit  
+
 end
