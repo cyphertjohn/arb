@@ -298,6 +298,7 @@ module Fmpz_mat = struct
   exception Index_Out_of_Bounds
 
   let init nrows ncols : t = 
+    if nrows < 0 || ncols < 0 then raise Index_Out_of_Bounds;
     let mat_struct = Ctypes.make C.fmpz_mat_struct in
     let c = Ctypes.addr mat_struct in
     C.fmpz_mat_init c (Signed.Long.of_int nrows) (Signed.Long.of_int ncols);
