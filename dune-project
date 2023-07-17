@@ -16,7 +16,7 @@
 
 (package
  (name arbduet)
- (synopsis "Provides a limited interface to the arb library. Required for the duet program analyzer.")
+ (synopsis "Provides a limited interface to the arb library. Required for the duet program analyzer")
  (depends
    (ctypes :build)
    (ctypes-foreign :build)
