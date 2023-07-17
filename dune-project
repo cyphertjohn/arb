@@ -1,8 +1,8 @@
 (lang dune 2.9)
 
-(name arb)
+(name arbduet)
 
-(generate_opam_files false)
+(generate_opam_files true)
 
 (source
  (github cyphertjohn/arb))
@@ -15,8 +15,8 @@
 
 
 (package
- (name arb)
- (synopsis "Provides a limited interface to the arb library")
+ (name arbduet)
+ (synopsis "Provides a limited interface to the arb library. Required for the duet program analyzer.")
  (depends
    (ctypes :build)
    (ctypes-foreign :build)

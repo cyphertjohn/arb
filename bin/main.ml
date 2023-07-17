@@ -1,5 +1,5 @@
-open Arb
-open Arb_zarith
+open Arbduet
+open Arbduet_zarith
 
 
 let fmpzify m rows cols = 

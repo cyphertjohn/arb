@@ -1,4 +1,4 @@
 (executable
  (public_name arb)
  (name main)
- (libraries zarith arb arb.zarith))
+ (libraries zarith arbduet arbduet.zarith))

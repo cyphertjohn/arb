@@ -1,9 +1,9 @@
 module Fmpzz = struct
-  open Arb.Fmpz
+  open Arbduet.Fmpz
 
   let zarith_to_fmpz z = 
     let ptr = Zarith_bind.MPZ.of_z z in
-    let ptr_mpz = Ctypes.from_voidp (Arb.C.mpz_struct) (Ctypes.to_voidp ptr) in
+    let ptr_mpz = Ctypes.from_voidp (Arbduet.C.mpz_struct) (Ctypes.to_voidp ptr) in
     fmpz_from_mpz ptr_mpz
 
   let fmpz_to_zarith fmpz = 

@@ -1,10 +1,10 @@
 ;The main arb library. Requires flint and arb to be installed c libraries
 (library
- (name arb)
- (public_name arb)
+ (name arbduet)
+ (public_name arbduet)
  (libraries ctypes unix)
  (synopsis "The Arb package entry point")
- (modules :standard \ gen bindings arb_zarith zarith_bind)
+ (modules :standard \ gen bindings arbduet_zarith zarith_bind)
  (foreign_stubs
   (language c)
   (names arb_stub)
@@ -16,15 +16,15 @@
 ;Optional library which gives more direct translations from zarith types
 ;to arb types.
 (library
- (name arb_zarith)
- (public_name arb.zarith)
- (libraries ctypes ppx_cstubs arb zarith)
+ (name arbduet_zarith)
+ (public_name arbduet.zarith)
+ (libraries ctypes ppx_cstubs arbduet zarith)
  (foreign_stubs
    (language c)
    (names zarith_bind_stubs)
    (flags :standard -lgmp)
  )
- (modules arb_zarith zarith_bind)
+ (modules arbduet_zarith zarith_bind)
  (synopsis "Arb with zarith bindings")
  (optional)
 )
