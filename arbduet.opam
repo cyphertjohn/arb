@@ -9,8 +9,8 @@ homepage: "https://github.com/cyphertjohn/arb"
 bug-reports: "https://github.com/cyphertjohn/arb/issues"
 depends: [
   "dune" {>= "2.9"}
-  "ctypes" {build}
-  "ctypes-foreign" {build}
+  "ctypes" {build & >= "0.22.0"}
+  "ctypes-foreign" {build & >= "0.22.0"}
   "ppx_cstubs" {build}
   "odoc" {with-doc}
 ]
