@@ -18,8 +18,8 @@
  (name arbduet)
  (synopsis "Provides a limited interface to the arb library. Required for the duet program analyzer")
  (depends
-   (ctypes :build)
-   (ctypes-foreign :build)
+   (ctypes (and :build (>= 0.22.0)))
+   (ctypes-foreign (and :build (>= 0.22.0)))
    (ppx_cstubs :build)
  )
  (depopts

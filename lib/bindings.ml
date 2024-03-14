@@ -3,7 +3,7 @@
 
 open Ctypes
 
-module Bindings (F : Cstubs.FOREIGN) = struct
+module Bindings (F : FOREIGN) = struct
   open F
   
   (*Types and functions from gmp.h*)
